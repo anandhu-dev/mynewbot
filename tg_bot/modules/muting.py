@@ -25,7 +25,7 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("ആരെയാണ് മ്യൂട്ട് ചെയ്യേണ്ടത് എന്നു പറഞ്ഞില്ലല്ലോ?")
+        message.reply_text("You'll need to either give me a username to mute, or reply to someone to be muted.")
         return ""
 
     if user_id == bot.id:
@@ -40,7 +40,7 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 
         elif member.can_send_messages is None or member.can_send_messages:
             bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
-            message.reply_text("ലവന്റെ വായടച്ചിട്ടുണ്ട്! ഇനി ഗ്രൂപ്പിൽ മെസ്സേജ് അയക്കാൻ പറ്റില്ല!")
+            message.reply_text("Muted!")
             return "<b>{}:</b>" \
                    "\n#MUTE" \
                    "\n<b>Admin:</b> {}" \
@@ -49,7 +49,7 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
                                               mention_html(member.user.id, member.user.first_name))
 
         else:
-            message.reply_text("ഇയാളെ already മ്യൂട്ട് ചെയ്തിട്ടുണ്ട്!")
+            message.reply_text("This user is already muted!")
     else:
         message.reply_text("This user isn't in the chat!")
 
@@ -67,28 +67,34 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("ആരുടെ മ്യൂട്ട് ആണ് മാറ്റേണ്ടത് എന്നു പറഞ്ഞില്ലല്ലോ?")
+        message.reply_text("You'll need to either give me a username to unmute, or reply to someone to be unmuted.")
         return ""
 
     member = chat.get_member(int(user_id))
 
-    if member.status != 'kicked' and member.status != 'left':
-        if member.can_send_messages and member.can_send_media_messages \
-                and member.can_send_other_messages and member.can_add_web_page_previews:
-            message.reply_text("This user already has the right to speak.")
-        else:
-            bot.restrict_chat_member(chat.id, int(user_id),
-                                     can_send_messages=True,
-                                     can_send_media_messages=True,
-                                     can_send_other_messages=True,
-                                     can_add_web_page_previews=True)
-            message.reply_text("ശരി, മ്യൂട്ട് മാറ്റിയിട്ടുണ്ട്!")
-            return "<b>{}:</b>" \
-                   "\n#UNMUTE" \
-                   "\n<b>Admin:</b> {}" \
-                   "\n<b>User:</b> {}".format(html.escape(chat.title),
-                                              mention_html(user.id, user.first_name),
-                                              mention_html(member.user.id, member.user.first_name))
+    if member:
+        if is_user_admin(chat, user_id, member=member):
+            message.reply_text("This is an admin, what do you expect me to do?")
+            return ""
+
+        elif member.status != 'kicked' and member.status != 'left':
+            if member.can_send_messages and member.can_send_media_messages \
+                    and member.can_send_other_messages and member.can_add_web_page_previews:
+                message.reply_text("This user already has the right to speak.")
+                return ""
+            else:
+                bot.restrict_chat_member(chat.id, int(user_id),
+                                         can_send_messages=True,
+                                         can_send_media_messages=True,
+                                         can_send_other_messages=True,
+                                         can_add_web_page_previews=True)
+                message.reply_text("Unmuted!")
+                return "<b>{}:</b>" \
+                       "\n#UNMUTE" \
+                       "\n<b>Admin:</b> {}" \
+                       "\n<b>User:</b> {}".format(html.escape(chat.title),
+                                                  mention_html(user.id, user.first_name),
+                                                  mention_html(member.user.id, member.user.first_name))
     else:
         message.reply_text("This user isn't even in the chat, unmuting them won't make them talk more than they "
                            "already do!")
@@ -109,7 +115,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("ആരെയാണ് എന്നു പറഞ്ഞില്ലല്ലോ...")
+        message.reply_text("You don't seem to be referring to a user.")
         return ""
 
     try:
@@ -122,7 +128,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
             raise
 
     if is_user_admin(chat, user_id, member):
-        message.reply_text("അഡ്മിൻ ആണ്... മ്യൂട്ട് ചെയ്യാൻ പറ്റില്ല!")
+        message.reply_text("I really wish I could mute admins...")
         return ""
 
     if user_id == bot.id:
@@ -130,7 +136,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
     if not reason:
-        message.reply_text("ഇയാളെ എത്ര സമയം മ്യൂട്ട് ചെയ്യണം എന്നു പറഞ്ഞില്ലല്ലോ?")
+        message.reply_text("You haven't specified a time to mute this user for!")
         return ""
 
     split_reason = reason.split(None, 1)
@@ -158,15 +164,15 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     try:
         if member.can_send_messages is None or member.can_send_messages:
             bot.restrict_chat_member(chat.id, user_id, until_date=mutetime, can_send_messages=False)
-            message.reply_text("കുറച്ചുനേരം മിണ്ടാതിരിക്ക്! Muted for {}!".format(time_val))
+            message.reply_text("Muted for {}!".format(time_val))
             return log
         else:
-            message.reply_text("ഇയാളെ already മ്യൂട്ട് ചെയ്തിട്ടുണ്ട്!")
+            message.reply_text("This user is already muted.")
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            message.reply_text("കുറച്ചുനേരം മിണ്ടാതിരിക്ക്! Muted for {}!".format(time_val), quote=False)
+            message.reply_text("Muted for {}!".format(time_val), quote=False)
             return log
         else:
             LOGGER.warning(update)

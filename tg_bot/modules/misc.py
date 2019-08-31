@@ -6,7 +6,7 @@ from typing import Optional, List
 
 import requests
 from telegram import Message, Chat, Update, Bot, MessageEntity
-from telegram import ParseMode, ReplyKeyboardRemove, ReplyKeyboardMarkup
+from telegram import ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
@@ -200,43 +200,6 @@ def get_id(bot: Bot, update: Update, args: List[str]):
                     escape_markdown(user1.first_name),
                     user1.id),
                 parse_mode=ParseMode.MARKDOWN)
-        elif update.effective_message.reply_to_message:
-            m1 = update.effective_message.reply_to_message
-            if m1.audio:
-                update.effective_message.reply_text(
-                    "The audio message has file id `{}`".format(escape_markdown(m1.audio.file_id)),
-                    parse_mode=ParseMode.MARKDOWN
-                )
-            elif m1.document:
-                update.effective_message.reply_text(
-                    "The document message has file id `{}`".format(escape_markdown(m1.document.file_id)),
-                    parse_mode=ParseMode.MARKDOWN
-                )
-            # elif m1.animation:
-            #     update.effective_message.reply_text(
-            #         "The animation message has file id `{}`".format(escape_markdown(m1.animation.file_id)),
-            #         parse_mode=ParseMode.MARKDOWN
-            #     )
-            elif m1.photo:
-                update.effective_message.reply_text(
-                    "The HQ photo has file id `{}`".format(escape_markdown(m1.photo[-1].file_id)),
-                    parse_mode=ParseMode.MARKDOWN
-                )
-            elif m1.video:
-                update.effective_message.reply_text(
-                    "The video message has file id `{}`".format(escape_markdown(m1.video.file_id)),
-                    parse_mode=ParseMode.MARKDOWN
-                )
-            elif m1.voice:
-                update.effective_message.reply_text(
-                    "The voice message has file id `{}`".format(escape_markdown(m1.voice.file_id)),
-                    parse_mode=ParseMode.MARKDOWN
-                )
-            elif m1.video_note:
-                update.effective_message.reply_text(
-                    "The video note has file id `{}`".format(escape_markdown(m1.video_note.file_id)),
-                    parse_mode=ParseMode.MARKDOWN
-                )
         else:
             user = bot.get_chat(user_id)
             update.effective_message.reply_text("{}'s id is `{}`.".format(escape_markdown(user.first_name), user.id),
@@ -361,21 +324,6 @@ def echo(bot: Bot, update: Update):
 
 
 @run_async
-def reply_keyboard_remove(bot: Bot, update: Update):
-    reply_markup = ReplyKeyboardRemove()
-    old_message = bot.send_message(
-        chat_id=update.message.chat_id,
-        text='trying',
-        reply_markup=reply_markup,
-        reply_to_message_id=update.message.message_id
-    )
-    bot.delete_message(
-        chat_id=update.message.chat_id,
-        message_id=old_message.message_id
-    )
-
-
-@run_async
 def gdpr(bot: Bot, update: Update):
     update.effective_message.reply_text("Deleting identifiable data...")
     for mod in GDPR:
@@ -435,12 +383,10 @@ __help__ = """
  - /id: get the current group id. If used by replying to a message, gets that user's id.
  - /runs: reply a random string from an array of replies.
  - /slap: slap a user, or get slapped if not a reply.
- - /time <place>: gives the local time at the given place.
  - /info: get information about a user.
  - /gdpr: deletes your information from the bot's database. Private chats only.
 
  - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
- - /removebotkeyboard: similar functionality of @RemoveKeyboardBot ഒരു കുടക്കീഴില്‍ 
 """
 
 __mod_name__ = "Misc"
@@ -462,7 +408,7 @@ GDPR_HANDLER = CommandHandler("gdpr", gdpr, filters=Filters.private)
 
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(IP_HANDLER)
-dispatcher.add_handler(TIME_HANDLER)
+# dispatcher.add_handler(TIME_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
 dispatcher.add_handler(INFO_HANDLER)
@@ -470,5 +416,3 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(GDPR_HANDLER)
-
-dispatcher.add_handler(DisableAbleCommandHandler("removebotkeyboard", reply_keyboard_remove))
