@@ -19,9 +19,9 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-Hi muthe {}, my name is {}! I'm a group manager bot maintained by [this wonderful person](tg://user?id={}).
-I'm built in python3, using the python-telegram-bot library, and am fully [opensource](https://github.com/PaulSonOfLars/tgbot) you can find what makes me tick \
-[here](github.com/SpEcHiDe/PSonOfLars_Marie)!
+ഹായ് മുത്തേ {}, my name is {}! ഞാൻ ഒരു ടെലിഗ്രാം ബോട്ട് ആണ്. എന്നെ ഡിസൈൻ ചെയ്തത് [Kannappan](tg://user?id={})ആണ്.
+എന്നെ വാട്സാപ്പ് സ്റ്റാറ്റസ് എന്ന ഗ്രൂപ്പ് മാനേജ് ചെയ്യാൻ വേണ്ടി ജലാൽ ഇക്കയും കണ്ണപ്പനും ചേർന്നാണ് എന്നെ നിർമിച്ചത് :). 
+മുത്തേ പറ്റുമെങ്കിൽ ഞങ്ങളുടെ ഫേസ്ബുക് പേജ് ഒന്ന് സപ്പോർട്ട് ചെയ്യണേ. [Whatsapp Status](https://www.facebook.com/malayalamstatusvideos.page/?ref=bookmarks)
 
 You can find the list of available commands with /help.
 
