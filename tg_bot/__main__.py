@@ -19,22 +19,12 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-ഹായ് മുത്തേ {}, my name is {}! ഞാൻ ഒരു ടെലിഗ്രാം ബോട്ട് ആണ്. എന്നെ ഡിസൈൻ ചെയ്തത് [Kannappan](tg://user?id={})ആണ്.
-എന്നെ വാട്സാപ്പ് സ്റ്റാറ്റസ് എന്ന ഗ്രൂപ്പ് മാനേജ് ചെയ്യാൻ വേണ്ടി ജലാൽ ഇക്കയും കണ്ണപ്പനും ചേർന്നാണ് എന്നെ നിർമിച്ചത് :). 
-മുത്തേ പറ്റുമെങ്കിൽ ഞങ്ങളുടെ ഫേസ്ബുക് പേജ് ഒന്ന് സപ്പോർട്ട് ചെയ്യണേ. [Whatsapp Status](https://www.facebook.com/malayalamstatusvideos.page/?ref=bookmarks)
+ഹായ് മുത്തേ {},  എന്റെ പേര് {}!  ഞാൻ ഒരു ടെലിഗ്രാം ബോട്ട് ആണ്.  എന്നെ ഡിസൈൻ ചെയ്തത്  [Kannappan](tg://user?id={}) ആണ്.
+എന്നെ വാട്സാപ്പ് സ്റ്റാറ്റസ് എന്ന ഗ്രൂപ്പ് മാനേജ് ചെയ്യാൻ വേണ്ടി ജലാൽ ഇക്കയും കണ്ണപ്പനും ചേർന്നാണ് എന്നെ നിർമിച്ചത് :).  
+മുത്തേ പറ്റുമെങ്കിൽ ഞങ്ങളുടെ ഫേസ്ബുക് പേജ് ഒന്ന് സപ്പോർട്ട് ചെയ്യണേ.  [Whatsapp Status](https://www.facebook.com/malayalamstatusvideos.page/?ref=bookmarks)
 
-You can find the list of available commands with /help.
+എന്റെ പ്രവർത്തനങ്ങളെ പറ്റി എന്തെങ്കിലും സഹായം വേണമെങ്കിൽ /help എന്ന് ടൈപ്പ് ചെയ്യൂ.
 
-Using standard [Marie](http://telegram.dog/BanhammerMarie_bot) is always gonna be easier.
-Perks:
-- latest features
-- it's free
-- biggest list of users for any /info commands
-- the database will always be correctly formatted
-- bugs will always be fixed ASAP
-- no need to maintain anything yourself
-
-Also, no support can be given for any [clones](https://telegram.dog/MidukkiBot); source might be changed and that's not [my](https://telegram.dog/PaulSonOfLars) problem.
 **Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
 
 If you're enjoying using me, and/or would like to help me survive in the wild, hit /donate to help fund/upgrade my VPS!
