@@ -6,7 +6,7 @@ from tg_bot.modules.helper_funcs.msg_types import Types
 from tg_bot.modules.sql import SESSION, BASE
 
 DEFAULT_WELCOME = "Hey {first}, how are you?"
-DEFAULT_GOODBYE = "Nice knowing ya!"
+DEFAULT_GOODBYE = "പാവം പോയി രക്ഷപെടട്ടെ 😏😒☹️"
 
 
 class Welcome(BASE):
