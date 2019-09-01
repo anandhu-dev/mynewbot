@@ -26,6 +26,9 @@ PM_START_TEXT = """
 എന്റെ പ്രവർത്തനങ്ങളെ പറ്റി എന്തെങ്കിലും സഹായം വേണമെങ്കിൽ /help എന്ന് ടൈപ്പ് ചെയ്യൂ.
 
 
+**Keep in mind that any changes you DO do to the source have to be on github, as per the license.**
+If you're enjoying using me, and/or would like to help me survive in the wild, hit /donate to help fund/upgrade my VPS!
+"""
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
